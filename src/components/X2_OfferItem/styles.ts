@@ -8,12 +8,22 @@ export const Card = styled.div`
   max-width: 470px;
   position: relative;
 
-  img {
-    width: 100%;
-  }
-
   ${TagContainer} {
     margin-right: 8px;
+  }
+`
+
+export const CardImage = styled.div`
+  width: 100%;
+  max-width: 470px;
+  height: 215px;
+  overflow: hidden;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 `
 

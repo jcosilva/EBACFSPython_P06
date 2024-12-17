@@ -1,65 +1,44 @@
-import Menu from '../../models/Menu'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { Restaurant } from '../01_Home'
 
 import HeaderShort from '../../components/01_02_HeaderShort'
 import Banner from '../../components/01_03_Banner'
 import MenuList from '../../components/03_MenuList'
 import Footer from '../../components/04_Footer'
 
-import efoodMenuItem01 from '../../assets/images/EFOOD_MENU_IMAGE_01.png'
-import efoodMenuItem02 from '../../assets/images/EFOOD_MENU_IMAGE_02.png'
+const MenuDisplay = () => {
+  const { id } = useParams<{ id: string }>()
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null)
+  const [loading, setLoading] = useState(true)
 
-const menu: Menu[] = [
-  {
-    key: 1,
-    image: efoodMenuItem01,
-    title: 'Prato 01',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolore saepe, quod rem commodi magni nihil blanditiis animi, hic dolor ea molestiae aliquid cupiditate pariatur. Ipsa sed voluptatum repudiandae similique!'
-  },
-  {
-    key: 2,
-    image: efoodMenuItem02,
-    title: 'Prato 02',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolore saepe, quod rem commodi magni nihil blanditiis animi, hic dolor ea molestiae aliquid cupiditate pariatur. Ipsa sed voluptatum repudiandae similique!'
-  },
-  {
-    key: 3,
-    image: efoodMenuItem02,
-    title: 'Prato 03',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolore saepe, quod rem commodi magni nihil blanditiis animi, hic dolor ea molestiae aliquid cupiditate pariatur. Ipsa sed voluptatum repudiandae similique!'
-  },
-  {
-    key: 4,
-    image: efoodMenuItem01,
-    title: 'Prato 04',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolore saepe, quod rem commodi magni nihil blanditiis animi, hic dolor ea molestiae aliquid cupiditate pariatur. Ipsa sed voluptatum repudiandae similique!'
-  },
-  {
-    key: 5,
-    image: efoodMenuItem01,
-    title: 'Prato 05',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolore saepe, quod rem commodi magni nihil blanditiis animi, hic dolor ea molestiae aliquid cupiditate pariatur. Ipsa sed voluptatum repudiandae similique!'
-  },
-  {
-    key: 6,
-    image: efoodMenuItem02,
-    title: 'Prato 06',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolore saepe, quod rem commodi magni nihil blanditiis animi, hic dolor ea molestiae aliquid cupiditate pariatur. Ipsa sed voluptatum repudiandae similique!'
-  }
-]
+  useEffect(() => {
+    if (!id) return
+    setLoading(true)
 
-const MenuDisplay = () => (
-  <>
-    <HeaderShort />
-    <Banner />
-    <MenuList menu={menu} />
-    <Footer />
-  </>
-)
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setRestaurant(res)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar restaurante:', error)
+        setLoading(false)
+      })
+  }, [id])
+
+  if (loading) return <p>Carregando...</p>
+  if (!restaurant) return <p>Restaurante não encontrado.</p>
+
+  return (
+    <>
+      <HeaderShort />
+      <Banner offer={restaurant} />
+      <MenuList menu={restaurant.cardapio || []} />
+      <Footer />
+    </>
+  )
+}
 
 export default MenuDisplay

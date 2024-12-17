@@ -7,9 +7,19 @@ export const Card = styled.div`
   max-width: 350px;
   position: relative;
   margin-bottom: 32px;
+`
 
-  img {
+export const CardImage = styled.div`
+  width: 100%;
+  max-width: 350px;
+  height: 165px;
+  overflow: hidden;
+
+  > img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 `
 
