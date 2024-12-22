@@ -1,14 +1,14 @@
 import * as S from './styles'
 
 type Props = {
-  key: number
+  itemkey: number
   id: number
   image: string
   title: string
   description: string
 }
 
-const MenuItem = ({ key, id, image, title, description }: Props) => {
+const MenuItem = ({ itemkey, id, image, title, description }: Props) => {
   const getDescription = (description: string) => {
     if (description.length > 120) {
       return description.slice(0, 117) + '...'
@@ -23,7 +23,10 @@ const MenuItem = ({ key, id, image, title, description }: Props) => {
       </S.CardImage>
       <S.CardText>
         <S.Title>{title}</S.Title>
-        <S.Descricao>{getDescription(description)}</S.Descricao>
+        <S.Descricao>
+          {getDescription(description)}
+          <span style={{ visibility: 'hidden' }}>{itemkey + id}</span>
+        </S.Descricao>
         <S.Button>Adicionar ao Carrinho</S.Button>
       </S.CardText>
     </S.Card>

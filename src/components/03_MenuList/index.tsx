@@ -6,7 +6,7 @@ import iconeFechar from '../../assets/images/ICONE_FECHAR.png'
 import { Button } from '../X3_MenuItem/styles'
 
 interface ModalState {
-  isVisible: boolean
+  isvisible: boolean
   foto: string
   nome: string
   preco: number
@@ -28,7 +28,7 @@ export type Props = {
 
 const MenuList = ({ menu }: Props) => {
   const [modal, setModal] = useState<ModalState>({
-    isVisible: false,
+    isvisible: false,
     foto: '',
     nome: '',
     preco: 0,
@@ -39,7 +39,7 @@ const MenuList = ({ menu }: Props) => {
 
   const closeModal = () => {
     setModal({
-      isVisible: false,
+      isvisible: false,
       foto: '',
       nome: '',
       preco: 0,
@@ -63,7 +63,7 @@ const MenuList = ({ menu }: Props) => {
                 key={item.id}
                 onClick={() => {
                   setModal({
-                    isVisible: true,
+                    isvisible: true,
                     foto: item.foto,
                     nome: item.nome,
                     preco: item.preco,
@@ -74,7 +74,7 @@ const MenuList = ({ menu }: Props) => {
                 }}
               >
                 <MenuDisplay
-                  key={item.id}
+                  itemkey={item.id}
                   id={item.id}
                   image={item.foto}
                   title={item.nome}
@@ -86,8 +86,8 @@ const MenuList = ({ menu }: Props) => {
         </div>
       </S.Container>
 
-      {modal.isVisible && (
-        <S.Modal isVisible={modal.isVisible}>
+      {modal.isvisible && (
+        <S.Modal $isvisible={modal.isvisible}>
           <S.ModalBox>
             <S.ModalClose>
               <img

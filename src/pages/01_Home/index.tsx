@@ -29,7 +29,8 @@ const Home = () => {
     fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
       .then((res) => res.json())
       .then((res) => setRestaurants(res))
-  })
+      .catch((error) => console.error('Erro ao buscar restaurante:', error))
+  }, [])
 
   return (
     <>
