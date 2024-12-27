@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Cores } from '../../styles'
+import { breakpoints, Cores } from '../../styles'
 import { Card } from '../X2_OfferItem/styles'
 
 export const Container = styled.section`
@@ -16,6 +16,14 @@ export const List = styled.ul`
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 24px;
   margin-top: 40px;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+  }
 `
 export const Title = styled.h2`
   font-size: 18px;
@@ -116,7 +124,6 @@ export const ModalText = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   color: ${Cores.corBranco};
 
   h4 {
@@ -128,5 +135,16 @@ export const ModalText = styled.div`
   p {
     font-size: 14px;
     margin-bottom: 16px;
+    line-height: 22px;
   }
+`
+
+export const ModalButton = styled.button`
+  width: 220px;
+  height: 24px;
+  font-size: 14px;
+  font-weight: bold;
+  color: ${Cores.corSalmao};
+  border: 1px solid;
+  cursor: pointer;
 `

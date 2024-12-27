@@ -21,4 +21,10 @@ export const HeaderText = styled.div`
   font-size: 18px;
   font-weight: bold;
   color: ${Cores.corSalmao};
+  cursor: pointer;
+
+  a {
+    text-decoration: none;
+    color: ${Cores.corSalmao};
+  }
 `

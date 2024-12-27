@@ -1,55 +1,62 @@
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { add, open } from '../../store/reducers/cart'
+import { Restaurant } from '../../pages/01_Home'
+
 import * as S from './styles'
 import MenuDisplay from '../X3_MenuItem'
-import { useState } from 'react'
 
 import iconeFechar from '../../assets/images/ICONE_FECHAR.png'
-import { Button } from '../X3_MenuItem/styles'
 
 interface ModalState {
   isvisible: boolean
-  foto: string
-  nome: string
-  preco: number
-  id: number
-  descricao: string
-  porcao: string
+  restaurant: Restaurant | null
+  dish: Restaurant['cardapio'][0] | null
+}
+
+export const formataPreco = (preco = 0) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(preco)
 }
 
 export type Props = {
-  menu: Array<{
-    foto: string
-    nome: string
-    preco: number
-    id: number
-    descricao: string
-    porcao: string
-  }>
+  restaurant: Restaurant
 }
 
-const MenuList = ({ menu }: Props) => {
+const MenuList = ({ restaurant }: Props) => {
+  const dispatch = useDispatch()
+
   const [modal, setModal] = useState<ModalState>({
     isvisible: false,
-    foto: '',
-    nome: '',
-    preco: 0,
-    id: 0,
-    descricao: '',
-    porcao: ''
+    restaurant: null,
+    dish: null
   })
 
   const closeModal = () => {
     setModal({
       isvisible: false,
-      foto: '',
-      nome: '',
-      preco: 0,
-      id: 0,
-      descricao: '',
-      porcao: ''
+      restaurant: null,
+      dish: null
     })
   }
 
-  if (!menu || menu.length === 0) {
+  const addToCart = () => {
+    if (modal.restaurant && modal.dish) {
+      const payload = {
+        restaurant: modal.restaurant,
+        dish: modal.dish
+      }
+      dispatch(add(payload))
+      closeModal()
+      dispatch(open())
+    } else {
+      console.error('Erro: Restaurante ou prato não selecionado.')
+    }
+  }
+
+  if (!restaurant || !restaurant.cardapio || restaurant.cardapio.length === 0) {
     return <p>Nenhum cardápio disponível para este restaurante</p>
   }
 
@@ -58,18 +65,14 @@ const MenuList = ({ menu }: Props) => {
       <S.Container>
         <div className="container">
           <S.List>
-            {menu.map((item) => (
+            {restaurant.cardapio.map((item) => (
               <li
                 key={item.id}
                 onClick={() => {
                   setModal({
                     isvisible: true,
-                    foto: item.foto,
-                    nome: item.nome,
-                    preco: item.preco,
-                    id: item.id,
-                    descricao: item.descricao,
-                    porcao: item.porcao
+                    restaurant,
+                    dish: item
                   })
                 }}
               >
@@ -98,17 +101,17 @@ const MenuList = ({ menu }: Props) => {
               />
             </S.ModalClose>
             <S.ModalImage>
-              <img src={modal.foto} alt={modal.nome} />
+              <img src={modal.dish?.foto} alt={modal.dish?.nome} />
             </S.ModalImage>
             <S.ModalText>
               <div>
-                <h4>{modal.nome}</h4>
-                <p>{modal.descricao}</p>
-                <p>Serve: {modal.porcao}</p>
+                <h4>{modal.dish?.nome}</h4>
+                <p>{modal.dish?.descricao}</p>
+                <p>Serve: {modal.dish?.porcao}</p>
               </div>
-              <Button>
-                Adicionar ao Carrinho - Preço: R$ {modal.preco.toFixed(2)}
-              </Button>
+              <S.ModalButton onClick={addToCart}>
+                Adicionar ao Carrinho - {formataPreco(modal.dish?.preco || 0)}
+              </S.ModalButton>
             </S.ModalText>
           </S.ModalBox>
           <div

@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-
-import OfferList from '../../components/02_OfferList'
+import { useGetRestaurantQuery } from '../../services/api'
 import Header from '../../components/01_01_Header'
-import Footer from '../../components/04_Footer'
+import OfferList from '../../components/02_01_OfferList'
+import Footer from '../../components/04_01_Footer'
 
 export type Restaurant = {
   id: number
@@ -23,19 +22,24 @@ export type Restaurant = {
 }
 
 const Home = () => {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+  const { data: restaurants, error, isLoading } = useGetRestaurantQuery()
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setRestaurants(res))
-      .catch((error) => console.error('Erro ao buscar restaurante:', error))
-  }, [])
+  if (isLoading) {
+    return <p>Carregando...</p>
+  }
+
+  if (error) {
+    return <p>Erro ao carregar os restaurantes.</p>
+  }
 
   return (
     <>
       <Header />
-      <OfferList offerList={restaurants} />
+      {restaurants ? (
+        <OfferList offerList={restaurants} />
+      ) : (
+        <p>Nenhum restaurante encontrado.</p>
+      )}
       <Footer />
     </>
   )

@@ -1,41 +1,37 @@
-import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Restaurant } from '../01_Home'
+import { useGetRestaurantMenuQuery } from '../../services/api'
 
 import HeaderShort from '../../components/01_02_HeaderShort'
 import Banner from '../../components/01_03_Banner'
-import MenuList from '../../components/03_MenuList'
-import Footer from '../../components/04_Footer'
+import MenuList from '../../components/02_02_MenuList'
+import Footer from '../../components/04_01_Footer'
 
 const MenuDisplay = () => {
   const { id } = useParams<{ id: string }>()
-  const [restaurant, setRestaurant] = useState<Restaurant | null>(null)
-  const [loading, setLoading] = useState(true)
+  const {
+    data: restaurantmenu,
+    error,
+    isLoading
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  } = useGetRestaurantMenuQuery(id!)
 
-  useEffect(() => {
-    if (!id) return
-    setLoading(true)
+  if (isLoading) {
+    return <p>Carregando...</p>
+  }
 
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setRestaurant(res)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar restaurante:', error)
-        setLoading(false)
-      })
-  }, [id])
+  if (error) {
+    return <p>Erro ao carregar o menu do restaurante.</p>
+  }
 
-  if (loading) return <p>Carregando...</p>
-  if (!restaurant) return <p>Restaurante não encontrado.</p>
+  if (!restaurantmenu) {
+    return <p>Restaurante não encontrado.</p>
+  }
 
   return (
     <>
       <HeaderShort />
-      <Banner offer={restaurant} />
-      <MenuList menu={restaurant.cardapio || []} />
+      <Banner restaurant={restaurantmenu || []} />
+      <MenuList restaurant={restaurantmenu || []} />
       <Footer />
     </>
   )
