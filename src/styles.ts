@@ -4,8 +4,10 @@ export const Cores = {
   corAreia: '#FFF8F2',
   corBege: '#FFEBD9',
   corBranco: '#FFFFFF',
+  corCinza: '#4B4B4B',
   corSalmao: '#E66767',
-  corPreto: '#000000'
+  corPreto: '#000000',
+  corVermelho: '#FF0000'
 }
 
 export const breakpoints = {

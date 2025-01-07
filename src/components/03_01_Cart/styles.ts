@@ -94,6 +94,85 @@ export const CartPrices = styled.p`
   }
 `
 
+export const CartMessage = styled.p`
+  font-weight: bold;
+  font-size: 14px;
+  color: ${Cores.corAreia};
+  margin-top: 24px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    display: block;
+    text-align: center;
+  }
+`
+
+export const CartDataInput = styled.div`
+  font-weight: bold;
+  font-size: 14px;
+  color: ${Cores.corAreia};
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: block;
+
+  h2 {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .DataArea {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 34px;
+  }
+
+  .DataField {
+    width: 100%;
+    margin-bottom: 8px;
+
+    span {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      background-color: ${Cores.corAreia};
+      color: ${Cores.corCinza};
+      border: none;
+      outline: none;
+
+      &:focus {
+        background-color: ${Cores.corAreia};
+        outline: none;
+        box-shadow: none;
+      }
+
+      &.error {
+        background-color: ${Cores.corPreto};
+      }
+    }
+  }
+
+  .DataField.WidFix input {
+    width: 228px; /* Sobrescreve o width: 100% */
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
+    margin-bottom: 8px;
+  }
+`
+
 export const CartButton = styled.button`
   background-color: ${Cores.corAreia};
   width: 100%;
@@ -103,4 +182,27 @@ export const CartButton = styled.button`
   font-size: 16px;
   color: ${Cores.corSalmao};
   font-weight: bold;
+  margin-bottom: 8px;
+`
+
+export const ErrorMessage = styled.p`
+  font-weight: bold;
+  font-size: 14px;
+  color: ${Cores.corAreia};
+  margin-top: 24px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const LoadingMessage = styled.p`
+  font-weight: bold;
+  font-size: 14px;
+  color: ${Cores.corAreia};
+  margin-top: 24px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
